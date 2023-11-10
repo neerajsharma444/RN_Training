@@ -1,3 +1,4 @@
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -5,58 +6,61 @@ import {
   StyleSheet,
   Modal,
   Alert,
-  TextInput,
-  Pressable,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
-import {Camera} from 'react-native-camera-kit';
-import {Icon} from 'react-native-vector-icons/MaterialIcons';
-import {SheetProvider} from 'react-native-actions-sheet';
-import MySheet from './MySheet';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const App = () => {
+import {Camera} from 'react-native-camera-kit';
+
+export default function App() {
   const cameraRef = useRef(null);
-  const [name, setFirstName] = useState('');
-  const [email, setEmail] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [cameraType, setCameraType] = useState('front');
   const [cameraFlash, setCameraFlash] = useState('off');
 
   const handleCamera = () => {
-    setCameraType(cameraType == 'front' ? 'back' : 'front');
-  };
-  const handleFlash = () => {
-    setCameraFlash(cameraFlash == 'off' ? 'on' : 'off');
+    setCameraType(cameraType === 'front' ? 'back' : 'front');
   };
 
-  const handleCapture = async () => {
+  const handleFlash = () => {
+    setCameraFlash(cameraFlash === 'off' ? 'on' : 'off');
+  };
+
+  const handleCapture = () => {
     console.log(cameraRef.current);
     if (cameraRef.current) {
-      const captureImage = new Promise(async (res, rej) => {
+      const captureImage = new Promise(async (resolve, reject) => {
         try {
           const imageURI = await cameraRef.current.capture();
-          res(imageURI);
-        } catch (err) {
-          rej(err);
+          resolve(imageURI);
+        } catch (error) {
+          reject(error);
         }
       });
+
       captureImage
         .then(imageURI => {
           setCapturedImage(imageURI);
           setModalVisible(false);
         })
-        .catch(err => {
-          console.error('Error in capturing your image', err);
+        .catch(error => {
+          console.error('Error capturing image:', error);
         });
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 30, alignSelf: 'center'}}>
-        Hey there! look here
-      </Text>
+      <Text style={styles.header}>Looks fun here! Huh</Text>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setModalVisible(true)}>
+          <Icon name="camera" size={20} color="white" />
+          <Text style={styles.buttonText}>Select Image</Text>
+        </TouchableOpacity>
+      </View>
+
       <Modal
         animationType="slide"
         transparent={false}
@@ -68,7 +72,7 @@ const App = () => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Camera
-              style={{height: '85%', width: '100%'}}
+              style={styles.camera}
               ref={cameraRef}
               cameraType={cameraType}
               flashMode={cameraFlash}
@@ -79,23 +83,22 @@ const App = () => {
               <TouchableOpacity
                 onPress={() => setModalVisible(!modalVisible)}
                 style={styles.captureButton}>
-                {/* <Text style={styles.captureText}>Back</Text> */}
-                <Icon name="camera-alt" size={20} color="black" />
+                <Icon name="left" color="#517fa4" />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleCapture}
-                style={[styles.captureButton, {width: 50}]}>
-                <Text style={styles.captureText}></Text>
+                style={styles.captureButton}>
+                <Icon name="camera" reverse size={30} color="white" />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleCamera}
                 style={styles.captureButton}>
-                <Text style={styles.captureText}>Flip</Text>
+                <Icon name="refresh" size={30} color="white" />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleFlash}
                 style={styles.captureButton}>
-                <Text style={styles.captureText}>Flash</Text>
+                <Icon name="bolt" size={30} color="white" />
               </TouchableOpacity>
             </View>
           </View>
@@ -103,56 +106,32 @@ const App = () => {
       </Modal>
     </View>
   );
-};
-
-export default App;
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-
-  inputContainer: {
-    flex: 1,
-    alignSelf: 'center',
-  },
-  input: {
-    height: 40,
-    width: 250,
-    borderRadius: 15,
-
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    backgroundColor: 'rgb(220,220,220)',
-  },
-  capturedImageContainer: {
     alignItems: 'center',
-    margin: 20,
   },
-  capturedImage: {
-    width: 200,
-    height: 200,
+  header: {
+    fontSize: 24,
+    marginTop: 20,
   },
-  cameraContainer: {},
-
-  captureButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    bottom: 20,
+  buttonContainer: {
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    borderRadius: 15,
     padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  captureButton: {
-    backgroundColor: 'blue',
-    borderRadius: 50,
-    padding: 20,
-    margin: 25,
-  },
-  captureText: {
+  buttonText: {
     color: 'white',
-    fontSize: 18,
-  },
-  camera: {
-    flex: 1,
+    fontWeight: 'bold',
+    marginLeft: 10,
   },
   centeredView: {
     flex: 1,
@@ -164,40 +143,29 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
-  button: {
-    height: 40,
-    width: 250,
-    borderRadius: 15,
-    alignSelf: 'center',
+  camera: {
+    height: '100%',
+    width: '100%',
+  },
+  captureButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    position: 'absolute',
+    bottom: 20,
     padding: 10,
-    elevation: 2,
-    marginBottom: 15,
-    textAlign: 'center',
   },
-  Hidebutton: {
-    height: 40,
-    width: 180,
-    borderRadius: 15,
-    alignSelf: 'center',
-    padding: 10,
-    textAlign: 'center',
+  captureButton: {
+    // backgroundColor: 'blue',
+    borderRadius: 50,
+    padding: 20,
+    margin: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  HidebuttonClose: {
-    backgroundColor: 'green',
-  },
-  textStyle: {
+  captureText: {
     color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+    fontSize: 18,
+    marginLeft: 10,
   },
 });
