@@ -5,11 +5,14 @@ import {
   TextInput,
   Pressable,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 export default function Login({navigation}) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   console.log('all tasks', user);
@@ -19,7 +22,11 @@ export default function Login({navigation}) {
   };
 
   const handleLogin = () => {
-    navigation.navigate('Home');
+    if (email !== user.email) {
+      Alert.alert('Invalid Credentials');
+    } else {
+      navigation.navigate('Home');
+    }
   };
 
   return (
@@ -35,16 +42,16 @@ export default function Login({navigation}) {
         <View style={{width: '100%'}}>
           <TextInput
             style={styles.inputEmail}
-            // value={email}
+            value={email}
             placeholder="Enter your Email"
-            // onChangeText={text => setEmail(text)}
+            onChangeText={text => setEmail(text)}
           />
 
           <TextInput
             style={styles.inputEmail}
             secureTextEntry={true}
-            // value={password}
-            // onChangeText={text => setPassword(text)}
+            value={password}
+            onChangeText={text => setPassword(text)}
             placeholder="Enter your Password"
           />
 
