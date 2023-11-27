@@ -1,19 +1,45 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import {View, Text, Button, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {logoutUser} from '../redux/actions/actions';
 
-const Home = () => {
+const Home = ({navigation}) => {
+  const user = useSelector(state => state.userReducer.loginUser);
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
-  console.log(user);
+  console.log('home', user);
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigation.navigate('Login');
+  };
+
   return (
-    <View>
-      <Text>Your Name is : {user.name}</Text>
-      <Text>Your Email is : {user.email}</Text>
-      <Text>Your Mobile Number is : {user.mobile}</Text>
-      <Text>Your Email is : {user.password}</Text>
+    <View style={styles.container}>
+      {!!user && (
+        <View>
+          <Text style={styles.text}>
+            Your Email is : {user.email} & Password is : {user.password}
+          </Text>
+          <View style={styles.btn}>
+            <Button title="Logout" onPress={handleLogout} />
+          </View>
+        </View>
+      )}
     </View>
   );
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  text: {
+    fontSize: 40,
+  },
+  btn: {
+    marginTop: '20%',
+  },
+});

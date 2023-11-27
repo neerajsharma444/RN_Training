@@ -4,35 +4,33 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  Alert,
   TouchableOpacity,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {registerUser, loginUser, logoutUser} from '../redux/actions/actions';
+import {registerUser} from '../redux/actions/actions';
 
 export default function Register({navigation}) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
+  console.log('sign up', user);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
 
-  console.log('User Details', user);
-
   const handleRegister = () => {
     dispatch(registerUser(name, email, mobile, password));
-
-    // navigation.navigate('Login');
+    // Alert.alert('Signed up succesfully');
+    navigation.navigate('Login');
   };
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headingText}>
-        <Text style={{color: 'white', fontSize: 50}}>Register</Text>
-        <Text style={{color: 'white', fontSize: 30}}>
-          Register Your Account
-        </Text>
+        <Text style={styles.register}>Register</Text>
+        <Text style={styles.account}>Create your account</Text>
       </View>
       <View style={styles.inputContainer}>
         <TextInput
@@ -44,36 +42,29 @@ export default function Register({navigation}) {
         <TextInput
           style={styles.inputStyle}
           placeholder="Email"
+          autoCapitalize="none"
           value={email}
           onChangeText={text => setEmail(text)}
+          keyboardType="email-address"
         />
         <TextInput
           style={styles.inputStyle}
-          placeholder="mobile"
+          placeholder="Mobile"
           value={mobile}
-          keyboardType="numeric"
           onChangeText={text => setMobile(text)}
+          keyboardType="numeric"
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="Password"
+          autoCapitalize="none"
           value={password}
           onChangeText={text => setPassword(text)}
-          //   onChangeText={text => setFormData({...formData, phoneno: text})}
         />
         <TouchableOpacity
           onPress={handleRegister}
-          style={styles.submitContainer}>
-          <Text
-            style={{
-              fontSize: 25,
-              color: 'black',
-              width: '100%',
-              textAlign: 'center',
-              marginVertical: 10,
-            }}>
-            Register
-          </Text>
+          style={styles.registerButton}>
+          <Text style={styles.registerButtonText}>Register</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -83,39 +74,59 @@ export default function Register({navigation}) {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'black',
-    // margin: 10,
+    backgroundColor: 'lightgrey',
     justifyContent: 'space-between',
-    // alignItems: 'center',
+    padding: 20,
   },
 
   headingText: {
-    // paddingTop: 10,
     flex: 0.25,
-    backgroundColor: 'purple',
+    backgroundColor: 'lightblue',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+
+  register: {
+    color: 'black',
+    fontSize: 40,
+    fontWeight: 'bold',
+  },
+  account: {
+    color: 'black',
+    fontSize: 18,
   },
 
   inputContainer: {
-    backgroundColor: 'pink',
+    backgroundColor: 'white',
     flex: 0.75,
     justifyContent: 'space-evenly',
+    borderRadius: 10,
+    padding: 20,
   },
 
   inputStyle: {
-    // flex: 0.2,
     paddingLeft: 15,
-    // width: '100%',
     backgroundColor: 'white',
-    borderRadius: 20,
-    marginHorizontal: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    height: 50,
+    borderWidth: 1,
+    borderColor: 'lightgrey',
   },
 
-  submitContainer: {
-    backgroundColor: 'white',
-    // width: '100%',
-    borderRadius: 20,
-    marginHorizontal: 20,
+  registerButton: {
+    backgroundColor: 'blue',
+    borderRadius: 10,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  registerButtonText: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
