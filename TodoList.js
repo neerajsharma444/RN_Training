@@ -37,7 +37,7 @@ const TodoList = () => {
       if (editingTask.index === -1) {
         dispatch(addTask(task));
       } else {
-        dispatch(editTask(editingTask.index, task));
+        dispatch(editTask(tasks[editingTask.index].id, task));
         setEditingTask({task: '', index: -1});
       }
     } else {
@@ -55,7 +55,7 @@ const TodoList = () => {
       <View style={styles.content}>
         <View style={styles.addEditTodo}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, styles.DancingScriptBold]}
             placeholder="Add or Edit Todo..."
             onChangeText={text =>
               setEditingTask({task: text, index: editingTask.index})
@@ -64,12 +64,11 @@ const TodoList = () => {
           />
           {editingTask.index === -1 ? (
             <TouchableOpacity>
-              {/* <AntIcon name="edit" color="black" size={30} /> */}
               <AntIcon
                 onPress={() => submitHandler(editingTask.task)}
                 name="plus"
-                color="blue"
-                backgroundColor="#A1A1A1"
+                color="#fff"
+                style={styles.plusIcon}
                 size={30}
               />
             </TouchableOpacity>
@@ -92,6 +91,7 @@ const TodoList = () => {
                 <Text
                   style={[
                     styles.item,
+                    styles.LuckiestGuyRegular,
                     item.completed ? styles.completed : null,
                   ]}>
                   {item.task}
@@ -101,9 +101,9 @@ const TodoList = () => {
                   onPress={() => handleTaskStatus(item.id)}
                   style={styles.taskStatus}>
                   {item.completed ? (
-                    <AntIcon name="close" color="blue" size={25} />
+                    <AntIcon name="close" color="green" size={25} />
                   ) : (
-                    <AntIcon name="check" color="blue" size={25} />
+                    <AntIcon name="check" color="green" size={25} />
                   )}
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -147,6 +147,16 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',
     padding: 5,
   },
+  DancingScriptBold: {
+    fontFamily: 'DancingScript-Bold',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  plusIcon: {
+    borderRadius: 20,
+    backgroundColor: 'blue',
+    padding: 5,
+  },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -165,9 +175,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   taskStatus: {
-    backgroundColor: 'lightgray',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    borderWidth: 2,
+    padding: 4,
     borderRadius: 5,
   },
   statusText: {
@@ -178,17 +187,21 @@ const styles = StyleSheet.create({
     borderColor: '#bbb',
     borderRadius: 10,
   },
+  LuckiestGuyRegular: {
+    fontFamily: 'LuckiestGuy-Regular',
+    fontSize: 16,
+  },
   completed: {
     textDecorationLine: 'line-through',
   },
-  deleteButton: {
-    backgroundColor: '#A1A1A1',
-    borderWidth: 2,
-    borderColor: 'red',
-  },
   editButton: {
-    backgroundColor: 'yellow',
+    padding: 1,
     borderWidth: 2,
     borderColor: '#A1A1A1',
+  },
+  deleteButton: {
+    borderWidth: 2,
+    padding: 2,
+    borderColor: 'red',
   },
 });
