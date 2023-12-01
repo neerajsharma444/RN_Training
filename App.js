@@ -3,17 +3,17 @@ import {Provider} from 'react-redux';
 import store from './src/redux/store/store';
 import TodoList from './TodoList';
 import SplashScreen from 'react-native-splash-screen';
+import Hobbies from './Hobbies';
 
 const App = () => {
   useEffect(() => {
-    setTimeout = () => {
-      SplashScreen.hide();
-    };
-  }, [1000]);
+    SplashScreen.hide();
+  }, []);
 
   return (
     <Provider store={store}>
       <TodoList />
+      <Hobbies />
     </Provider>
   );
 };
