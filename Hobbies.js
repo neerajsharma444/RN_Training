@@ -8,56 +8,27 @@ const Hobbies = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState('');
   const [hobbies, setHobbies] = useState('');
-  const [tempHobbies, setTempHobbies] = useState('');
+  const [saveHobbies, setSaveHobbies] = useState('');
   const [editingUserId, setEditingUserId] = useState(null);
 
-  const renderItem = ({item}) => (
-    <View style={styles.userContainer}>
-      {item && (
-        <>
-          <Text style={styles.userInfo}>Name: {item.name}</Text>
-          <Text style={styles.userInfo}>
-            Hobbies: {item.hobbies.join(', ')}
-          </Text>
-
-          {/* Render TextInput and plus icon for each user */}
-          {editingUserId === item.id ? (
-            <>
-              <TextInput
-                style={styles.input}
-                placeholder="Add Hobby"
-                onChangeText={text => setTempHobbies(text)}
-              />
-              <Button title="Save" onPress={() => saveHobbies(item.id)} />
-            </>
-          ) : (
-            <TouchableOpacity
-              onPress={() => startEditingHobbies(item.id)}
-              style={styles.plusIcon}>
-              <AntIcon name="plus" size={24} color="black" />
-            </TouchableOpacity>
-          )}
-        </>
-      )}
-    </View>
-  );
+  console.log(data);
 
   const startEditingHobbies = userId => {
     setEditingUserId(userId);
-    setTempHobbies(''); // Clear previous hobby input
+    setSaveHobbies('');
   };
 
-  const saveHobbies = id => {
+  const handleSaveHobbies = id => {
     setData(prevData => {
       return prevData.map(user => {
         if (user.id === id) {
-          user.hobbies.push(tempHobbies);
+          user.hobbies.push(saveHobbies);
         }
         return user;
       });
     });
 
-    setTempHobbies('');
+    setSaveHobbies('');
   };
 
   const addUser = () => {
@@ -69,6 +40,36 @@ const Hobbies = () => {
       setHobbies('');
     }
   };
+
+  const renderItem = ({item}) => (
+    <View style={styles.userContainer}>
+      {item && (
+        <>
+          <Text style={styles.userInfo}>Name: {item.name}</Text>
+          <Text style={styles.userInfo}>
+            Hobbies: {item.hobbies.join(', ')}
+          </Text>
+
+          {editingUserId === item.id ? (
+            <>
+              <TextInput
+                style={styles.input}
+                placeholder="Add Hobby"
+                onChangeText={text => setSaveHobbies(text)}
+              />
+              <Button title="Save" onPress={() => handleSaveHobbies(item.id)} />
+            </>
+          ) : (
+            <TouchableOpacity
+              onPress={() => startEditingHobbies(item.id)}
+              style={styles.plusIcon}>
+              <AntIcon name="plus" size={28} color="black" />
+            </TouchableOpacity>
+          )}
+        </>
+      )}
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -106,7 +107,7 @@ const Hobbies = () => {
               value={hobbies}
               onChangeText={text => setHobbies(text)}
             />
-            <Button title="Add" onPress={addUser} color="lightgreen" />
+            <Button title="Add" onPress={addUser} color="blue" />
             <Button
               title="Cancel"
               color="#A1A1A1"
