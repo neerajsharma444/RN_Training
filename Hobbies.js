@@ -1,32 +1,180 @@
 import React, {useState} from 'react';
-import {View, Text, Button, FlatList} from 'react-native';
-import Modal from './src/modal/HobbiesModal';
+import {View, Text, TextInput, Modal, Button, StyleSheet} from 'react-native';
+import {FlatList, TouchableOpacity} from 'react-native';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 
-const App = () => {
-  const [name, setName] = useState('');
+const Hobbies = () => {
+  const [data, setData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [name, setName] = useState('');
+  const [hobbies, setHobbies] = useState('');
+  const [tempHobbies, setTempHobbies] = useState('');
+  const [editingUserId, setEditingUserId] = useState(null);
 
-  const [hobbies, setHobbies] = useState([]);
+  const renderItem = ({item}) => (
+    <View style={styles.userContainer}>
+      {item && (
+        <>
+          <Text style={styles.userInfo}>Name: {item.name}</Text>
+          <Text style={styles.userInfo}>
+            Hobbies: {item.hobbies.join(', ')}
+          </Text>
 
-  const handleAddHobby = hobby => {
-    setHobbies([...hobbies, hobby]);
+          {/* Render TextInput and plus icon for each user */}
+          {editingUserId === item.id ? (
+            <>
+              <TextInput
+                style={styles.input}
+                placeholder="Add Hobby"
+                onChangeText={text => setTempHobbies(text)}
+              />
+              <Button title="Save" onPress={() => saveHobbies(item.id)} />
+            </>
+          ) : (
+            <TouchableOpacity
+              onPress={() => startEditingHobbies(item.id)}
+              style={styles.plusIcon}>
+              <AntIcon name="plus" size={24} color="black" />
+            </TouchableOpacity>
+          )}
+        </>
+      )}
+    </View>
+  );
+
+  const startEditingHobbies = userId => {
+    setEditingUserId(userId);
+    setTempHobbies(''); // Clear previous hobby input
+  };
+
+  const saveHobbies = id => {
+    setData(prevData => {
+      return prevData.map(user => {
+        if (user.id === id) {
+          user.hobbies.push(tempHobbies);
+        }
+        return user;
+      });
+    });
+
+    setTempHobbies('');
+  };
+
+  const addUser = () => {
+    if (name && hobbies) {
+      const user = {id: data.length + 1, name, hobbies: [hobbies]};
+      setData([...data, user]);
+      setModalVisible(false);
+      setName('');
+      setHobbies('');
+    }
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
-        data={hobbies}
-        keyExtractor={index => index.toString()}
-        renderItem={({item}) => <Text>{item}</Text>}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item?.id.toString()}
       />
-      <Button title="Add Hobbies" onPress={() => setModalVisible(true)} />
+
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => setModalVisible(true)}>
+        <Text style={styles.addButtonText}>Add User</Text>
+      </TouchableOpacity>
+
       <Modal
+        animationType="slide"
+        transparent={false}
         visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onAddHobby={handleAddHobby}
-      />
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <View>
+            <Text style={styles.modalTitle}>Add User</Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Name"
+              value={name}
+              onChangeText={text => setName(text)}
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Hobbies"
+              value={hobbies}
+              onChangeText={text => setHobbies(text)}
+            />
+            <Button title="Add" onPress={addUser} color="lightgreen" />
+            <Button
+              title="Cancel"
+              color="#A1A1A1"
+              onPress={() => setModalVisible(false)}
+            />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
-export default App;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+  userContainer: {
+    margin: 10,
+    padding: 15,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.2,
+  },
+  userInfo: {
+    marginBottom: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 8,
+    borderRadius: 5,
+  },
+  addButton: {
+    padding: 15,
+    backgroundColor: '#3498db',
+    borderRadius: 10,
+    marginTop: 10,
+    alignSelf: 'center',
+  },
+  addButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+  },
+  modalTitle: {
+    textAlign: 'center',
+    fontSize: 18,
+    marginBottom: 10,
+    fontFamily: 'IBMPlexMono-Bold',
+    fontWeight: '700',
+  },
+});
+
+export default Hobbies;

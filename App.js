@@ -12,7 +12,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <TodoList />
+      {/* <TodoList /> */}
       <Hobbies />
     </Provider>
   );
