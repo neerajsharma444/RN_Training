@@ -1,6 +1,13 @@
 import React, {useState} from 'react';
-import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-import AntIcon from 'react-native-vector-icons/AntDesign';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
+import UserModal from './src/Modal/userModal';
 
 const data = [
   {
@@ -15,17 +22,16 @@ const data = [
 
 const UserHobby = () => {
   const [userData, setUserData] = useState(data);
-  let newUser = {
-    name: 'L Lawliet(Ryuzaki)',
-    hobbies: [{hobby: 'Detective'}, {hobby: 'Amazing skills'}],
-  };
+  const [modalVisible, setModalVisible] = useState(false);
+
   const renderHobbies = ({item}) => (
     <View>
       <Text style={styles.text}>Hobby: {item.hobby}</Text>
     </View>
   );
 
-  const addUser = () => {
+  const addUser = newUser => {
+    // console.log(userData);
     setUserData([...userData, newUser]);
     // console.log(userData);
   };
@@ -34,16 +40,11 @@ const UserHobby = () => {
     <View style={styles.card}>
       <View style={styles.card_container}>
         <Text style={styles.text}>Name: {item.name}</Text>
-        <View style={styles.hobbies_container}>
-          <FlatList
-            data={item.hobbies}
-            keyExtractor={hobby => hobby.hobby}
-            renderItem={renderHobbies}
-          />
-          <TouchableOpacity>
-            <AntIcon name="plus" size={28} color="black" />
-          </TouchableOpacity>
-        </View>
+        <FlatList
+          data={item.hobbies}
+          keyExtractor={hobby => hobby.hobby}
+          renderItem={renderHobbies}
+        />
       </View>
     </View>
   );
@@ -55,9 +56,21 @@ const UserHobby = () => {
         keyExtractor={user => user.name}
         renderItem={renderUsersName}
       />
-      <TouchableOpacity style={styles.addButton} onPress={addUser}>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => setModalVisible(true)}>
         <Text style={styles.addButtonText}>Add User</Text>
       </TouchableOpacity>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <UserModal
+          closeModal={() => setModalVisible(false)}
+          statePassing={addUser}
+        />
+      </Modal>
     </View>
   );
 };
@@ -84,10 +97,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'DancingScript-Bold',
     padding: 5,
-  },
-
-  hobbies_container: {
-    flexDirection: 'row',
   },
 
   addButton: {
