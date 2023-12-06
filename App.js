@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import store from './src/redux/store/store';
 import TodoList from './TodoList';
 import SplashScreen from 'react-native-splash-screen';
-import UserHobby from './UserHobby';
+import UserData from './UserData';
 
 const App = () => {
   useEffect(() => {
@@ -13,7 +13,7 @@ const App = () => {
   return (
     <Provider store={store}>
       {/* <TodoList /> */}
-      <UserHobby />
+      <UserData />
     </Provider>
   );
 };

@@ -11,8 +11,8 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 
 const UserModal = ({statePassing, closeModal}) => {
   const [personsData, setPersonsData] = useState({
-    name: 'L Lawliet(Ryuzaki)',
-    hobbies: [{}], // Initial empty hobby object
+    name: '',
+    hobbies: [{}],
   });
 
   const addHobby = () => {
@@ -20,12 +20,14 @@ const UserModal = ({statePassing, closeModal}) => {
       ...personsData,
       hobbies: [...personsData.hobbies, {}],
     });
+    console.log('Data', personsData);
   };
 
   const updateHobby = (text, index) => {
     const updatedHobbies = [...personsData.hobbies];
     updatedHobbies[index] = {hobby: text};
     setPersonsData({...personsData, hobbies: updatedHobbies});
+    // console.log('My updatedHobbies', updatedHobbies);
   };
 
   const renderHobbies = () => {
@@ -39,12 +41,7 @@ const UserModal = ({statePassing, closeModal}) => {
         />
         {index === personsData.hobbies.length - 1 && (
           <TouchableOpacity onPress={() => addHobby()}>
-            <AntIcon
-              style={styles.icon}
-              name="plus"
-              size={35}
-              color="#3498db"
-            />
+            <AntIcon style={styles.icon} name="plus" size={35} color="#fff" />
           </TouchableOpacity>
         )}
       </View>
@@ -69,6 +66,7 @@ const UserModal = ({statePassing, closeModal}) => {
           color="#3498db"
           onPress={() => {
             closeModal();
+            // personsData;
             statePassing(personsData);
           }}
         />
@@ -101,7 +99,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input_name: {
-    width: '100%',
+    width: '90%',
     borderWidth: 1,
     fontSize: 18,
     borderColor: '#ccc',
@@ -110,7 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input_hobbies: {
-    width: '80%',
+    width: '90%',
     borderWidth: 1,
     fontSize: 18,
     borderColor: '#ccc',
@@ -120,5 +118,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     borderRadius: 20,
+    backgroundColor: 'blue',
   },
 });

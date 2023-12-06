@@ -20,21 +20,19 @@ const data = [
   },
 ];
 
-const UserHobby = () => {
+const UserData = () => {
   const [userData, setUserData] = useState(data);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const addUser = newUser => {
+    setUserData([...userData, newUser]);
+  };
 
   const renderHobbies = ({item}) => (
     <View>
       <Text style={styles.text}>Hobby: {item.hobby}</Text>
     </View>
   );
-
-  const addUser = newUser => {
-    // console.log(userData);
-    setUserData([...userData, newUser]);
-    // console.log(userData);
-  };
 
   const renderUsersName = ({item}) => (
     <View style={styles.card}>
@@ -75,7 +73,7 @@ const UserHobby = () => {
   );
 };
 
-export default UserHobby;
+export default UserData;
 
 const styles = StyleSheet.create({
   container: {
