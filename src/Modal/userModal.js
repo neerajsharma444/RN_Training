@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,44 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 const UserModal = ({statePassing, closeModal}) => {
   const [personsData, setPersonsData] = useState({
     name: 'L Lawliet(Ryuzaki)',
-    hobbies: [{hobby: 'Detective'}, {hobby: 'Amazing skills'}],
+    hobbies: [{}], // Initial empty hobby object
   });
+
+  const addHobby = () => {
+    setPersonsData({
+      ...personsData,
+      hobbies: [...personsData.hobbies, {}],
+    });
+  };
+
+  const updateHobby = (text, index) => {
+    const updatedHobbies = [...personsData.hobbies];
+    updatedHobbies[index] = {hobby: text};
+    setPersonsData({...personsData, hobbies: updatedHobbies});
+  };
+
+  const renderHobbies = () => {
+    return personsData.hobbies.map((hobby, index) => (
+      <View key={index} style={styles.hobbies_container}>
+        <TextInput
+          style={styles.input_hobbies}
+          placeholder="Hobbies"
+          value={hobby.hobby}
+          onChangeText={text => updateHobby(text, index)}
+        />
+        {index === personsData.hobbies.length - 1 && (
+          <TouchableOpacity onPress={() => addHobby()}>
+            <AntIcon
+              style={styles.icon}
+              name="plus"
+              size={35}
+              color="#3498db"
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+    ));
+  };
 
   return (
     <View>
@@ -23,26 +59,14 @@ const UserModal = ({statePassing, closeModal}) => {
           style={styles.input_name}
           placeholder="Name"
           value={personsData.name}
-          onChangeText={text =>
-            setPersonsData(Object.assign({}, personsData, {name: text}))
-          }
+          onChangeText={text => setPersonsData({...personsData, name: text})}
         />
 
-        <View style={styles.hobbies_container}>
-          <TextInput style={styles.input_hobbies} placeholder="Hobbies" />
-          <TouchableOpacity>
-            <AntIcon
-              style={styles.icon}
-              name="plus"
-              backgroundColor="blue"
-              size={35}
-              color="#fff"
-            />
-          </TouchableOpacity>
-        </View>
+        {renderHobbies()}
+
         <Button
           title="Add"
-          color="blue"
+          color="#3498db"
           onPress={() => {
             closeModal();
             statePassing(personsData);

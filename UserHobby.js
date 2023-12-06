@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-import UserModal from './src/Modal/userModal';
+import UserModal from './src/modal/userModal';
 
 const data = [
   {
