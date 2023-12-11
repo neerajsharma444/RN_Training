@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import PharmacyData from './PharmacyData';
+import PharmacyData from './Pharmacy/PharmacyData';
 import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-import PharmacyModal from './src/modal/PharmacyModal';
+import PharmacyModal from '../src/modal/PharmacyModal';
 
 const PharmacyData = () => {
   const [pharmacyData, setPharmacyData] = useState([]);
