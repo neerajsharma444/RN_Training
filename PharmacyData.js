@@ -29,7 +29,7 @@ const PharmacyData = () => {
 
   const renderMeds = ({item}) => (
     <View style={styles.medTypesContainer}>
-      <Text style={styles.medTypeText}>{item.type}</Text>
+      <Text style={styles.medTypeText}>Medicine Type : {item.type}</Text>
       <FlatList
         data={item.meds}
         renderItem={({item: med, index}) => (
@@ -43,7 +43,7 @@ const PharmacyData = () => {
 
   const renderPharmacy = ({item}) => (
     <View style={styles.card}>
-      <Text style={styles.pharmacyText}>{item.name}</Text>
+      <Text style={styles.pharmacyText}>Pharmacy : {item.name}</Text>
       <FlatList data={item.medTypes} renderItem={renderMeds} />
     </View>
   );
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
 
   medTypeText: {
     fontSize: 18,
+    color: 'purple',
     marginHorizontal: '10%',
     marginBottom: 10,
   },
