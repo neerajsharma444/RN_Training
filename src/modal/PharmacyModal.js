@@ -7,6 +7,7 @@ import {
   Button,
   TouchableOpacity,
   ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 const PharmacyModal = ({statePassing, closeModal}) => {
@@ -80,31 +81,35 @@ const PharmacyModal = ({statePassing, closeModal}) => {
   );
 
   return (
-    <ScrollView>
-      <View style={styles.modalContainer}>
-        <Text style={styles.modalTitle}>Add Pharmacy</Text>
-        <Text style={styles.name_text}>Enter Pharmacy Name</Text>
-        <TextInput
-          style={styles.inputName}
-          value={pharmacyData.name}
-          onChangeText={text =>
-            setPharmacyData(oldData => Object.assign({}, oldData, {name: text}))
-          }
-        />
-        {pharmacyData.medTypes.map(renderMedTypeInputs)}
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Save"
-            color="blue"
-            onPress={() => {
-              closeModal();
-              statePassing(pharmacyData);
-            }}
+    <KeyboardAvoidingView>
+      <ScrollView>
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Add Pharmacy</Text>
+          <Text style={styles.name_text}>Enter Pharmacy Name</Text>
+          <TextInput
+            style={styles.inputName}
+            value={pharmacyData.name}
+            onChangeText={text =>
+              setPharmacyData(oldData =>
+                Object.assign({}, oldData, {name: text}),
+              )
+            }
           />
-          <Button title="Cancel" color="red" onPress={closeModal} />
+          {pharmacyData.medTypes.map(renderMedTypeInputs)}
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Save"
+              color="blue"
+              onPress={() => {
+                closeModal();
+                statePassing(pharmacyData);
+              }}
+            />
+            <Button title="Cancel" color="red" onPress={closeModal} />
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
