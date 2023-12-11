@@ -55,6 +55,7 @@ const PharmacyData = () => {
         data={pharmacyData}
         renderItem={renderPharmacy}
         ListEmptyComponent={emptyListMessage}
+        style={{flex: 1}}
       />
       <TouchableOpacity
         style={styles.addButton}

@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   Button,
+  FlatList,
   TouchableOpacity,
 } from 'react-native';
 
@@ -45,30 +46,30 @@ const PharmacyModal = ({statePassing, closeModal}) => {
     });
   };
 
-  const renderMedTypeInputs = (medType, index) => (
+  const renderMedTypes = ({item, index}) => (
     <View key={index} style={styles.medTypesContainer}>
       <Text style={styles.medType_text}>Enter Medicine Type</Text>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.inputMedType}
-          value={medType.type}
+          value={item.type}
           onChangeText={text => updateMedType(text, index)}
         />
         {index === pharmacyData.medTypes.length - 1 && (
-          <TouchableOpacity onPress={() => addMedType()}>
+          <TouchableOpacity onPress={addMedType}>
             <Text style={styles.addButton}>Add Type</Text>
           </TouchableOpacity>
         )}
       </View>
       <Text style={styles.medName_text}>Enter Medicine Name</Text>
-      {medType.meds.map((medicine, medIndex) => (
+      {item.meds.map((medicine, medIndex) => (
         <View key={medIndex} style={styles.medicineContainer}>
           <TextInput
             style={styles.inputMedicine}
             value={medicine}
             onChangeText={text => updateMedicine(text, index, medIndex)}
           />
-          {medIndex === medType.meds.length - 1 && (
+          {medIndex === item.meds.length - 1 && (
             <TouchableOpacity onPress={() => addMedicine(index)}>
               <Text style={styles.addButton}>Add Medicine</Text>
             </TouchableOpacity>
@@ -89,7 +90,12 @@ const PharmacyModal = ({statePassing, closeModal}) => {
           setPharmacyData(oldData => Object.assign({}, oldData, {name: text}))
         }
       />
-      {pharmacyData.medTypes.map(renderMedTypeInputs)}
+      {/* {pharmacyData.medTypes.map(renderMedTypeInputs)} */}
+      <FlatList
+        data={pharmacyData.medTypes}
+        renderItem={renderMedTypes}
+        keyExtractor={(item, index) => index.toString()}
+      />
       <View style={styles.buttonContainer}>
         <Button
           title="Save"
