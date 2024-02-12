@@ -11,11 +11,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {registerUser} from '../redux/actions/actions';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import GoogleSign from '../components/GoogleSign';
+import FacebookSign from '../components/FacebookSign';
 
 export default function Register({navigation}) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-  console.log('sign up', user);
 
   const validationSchema = yup.object({
     name: yup
@@ -24,12 +25,11 @@ export default function Register({navigation}) {
         /(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/,
         'Name should only contain alphabets!',
       )
-      .min(3, 'Name should have atleast 3 digits!')
-      .max(12, 'Name should be only 16 digits!')
+      .min(3, 'Name should have at least 3 digits!')
       .required('Name is required!'),
     email: yup
       .string()
-      .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format!')
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid email format!')
       .required('Email is required!'),
     mobile: yup
       .string()
@@ -60,7 +60,12 @@ export default function Register({navigation}) {
       </View>
       <View style={styles.inputContainer}>
         <Formik
-          initialValues={{name: '', email: '', mobile: '', password: ''}}
+          initialValues={{
+            name: '',
+            email: '',
+            mobile: '',
+            password: '',
+          }}
           onSubmit={handleRegister}
           validationSchema={validationSchema}>
           {({
@@ -74,6 +79,7 @@ export default function Register({navigation}) {
             <View>
               <TextInput
                 style={styles.inputStyle}
+                maxLength={20}
                 placeholder="Name"
                 value={values.name}
                 onChangeText={handleChange('name')}
@@ -82,7 +88,6 @@ export default function Register({navigation}) {
               {touched.name && errors.name && (
                 <Text style={styles.errorText}>{errors.name}</Text>
               )}
-
               <TextInput
                 style={styles.inputStyle}
                 placeholder="Email"
@@ -95,10 +100,10 @@ export default function Register({navigation}) {
               {touched.email && errors.email && (
                 <Text style={styles.errorText}>{errors.email}</Text>
               )}
-
               <TextInput
                 style={styles.inputStyle}
                 placeholder="Mobile"
+                maxLength={10}
                 value={values.mobile}
                 onChangeText={handleChange('mobile')}
                 onBlur={handleBlur('mobile')}
@@ -107,7 +112,6 @@ export default function Register({navigation}) {
               {touched.mobile && errors.mobile && (
                 <Text style={styles.errorText}>{errors.mobile}</Text>
               )}
-
               <TextInput
                 style={styles.inputStyle}
                 placeholder="Password"
@@ -120,12 +124,13 @@ export default function Register({navigation}) {
               {touched.password && errors.password && (
                 <Text style={styles.errorText}>{errors.password}</Text>
               )}
-
               <TouchableOpacity
                 onPress={handleSubmit}
                 style={styles.registerButton}>
                 <Text style={styles.registerButtonText}>Register</Text>
               </TouchableOpacity>
+              <GoogleSign />
+              <FacebookSign />
             </View>
           )}
         </Formik>
@@ -133,6 +138,7 @@ export default function Register({navigation}) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,

@@ -3,10 +3,15 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
        <!-- Always include this permission -->
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
   <!-- Include only if your app benefits from precise location access. -->
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
+    <!-- <provider android:authorities="com.facebook.app.FacebookContentProvider330569806636865"
+      android:name="com.facebook.FacebookContentProvider"
+      android:exported="true" /> -->
 
     <application
       android:name=".MainApplication"
@@ -27,8 +32,15 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
-      <meta-data
-     android:name="com.google.android.geo.API_KEY"
-     android:value="@string/GOOGLE_MAP_API_KEY"/>
+      <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+    <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+      <!-- <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="@string/GOOGLE_MAP_API_KEY"
+        android:name="com.google.gms.auth.api.signin.client.default_request_client_id"
+        /> -->
+     <!-- <meta-data
+    android:name="com.google.android.gms.auth.api.signin.client.appid"
+    android:value="@string/google_signin_client_id" /> -->
     </application>
 </manifest>
