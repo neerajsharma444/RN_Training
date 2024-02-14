@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "364196734823",
+    "project_id": "fir-messaging-ff4f8",
+    "storage_bucket": "fir-messaging-ff4f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364196734823:android:6bb89d4629e5cad8eab1c2",
+        "android_client_info": {
+          "package_name": "com.todo_list"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwsUZEA2kmNVpYdCuSrPzgYGMpqL34kB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
