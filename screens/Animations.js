@@ -91,6 +91,30 @@ const Animations = () => {
           />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity
+        style={{marginTop: 20}}
+        onPress={startOfferRotationAnimation}>
+        <Animated.Image
+          source={require('../assets/images/shop_offer.png')}
+          style={[
+            styles.image,
+            {
+              transform: [
+                {
+                  rotate: offerRotationStarted
+                    ? offerRotationAnimation.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: ['0deg', '360deg'],
+                      })
+                    : '0deg',
+                },
+              ],
+            },
+          ]}
+        />
+      </TouchableOpacity>
+      <Text style={styles.offers}>Offers</Text>
+      <Text style={styles.discounts}>Flat Discounts</Text>
       <TouchableOpacity onPress={startOfferRotationAnimation}>
         <Animated.Image
           source={require('../assets/images/shop_offer.png')}
@@ -103,8 +127,6 @@ const Animations = () => {
                     ? offerRotationAnimation.interpolate({
                         inputRange: [0, 1],
                         outputRange: ['60deg', '-60deg'],
-                        // To rotate 360 deg
-                        // outputRange: ['0deg', '360deg'],
                       })
                     : '0deg',
                 },
