@@ -10,32 +10,21 @@
     "test": "jest"
   },
   "dependencies": {
-    "@react-native-firebase/app": "^18.8.0",
-    "@react-native-firebase/database": "^18.8.0",
-    "@react-native-firebase/messaging": "^18.8.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
-    "@reduxjs/toolkit": "^2.0.1",
-    "@rneui/base": "^4.0.0-rc.7",
-    "@rneui/themed": "^4.0.0-rc.8",
     "axios": "^1.6.7",
     "react": "18.2.0",
     "react-native": "0.73.2",
-    "react-native-actions-sheet": "^0.9.1",
     "react-native-camera-kit": "^13.0.0",
     "react-native-gesture-handler": "^2.14.1",
-    "react-native-image-crop-picker": "^0.40.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-reanimated": "^3.6.1",
     "react-native-safe-area-context": "^4.8.2",
     "react-native-screens": "^3.29.0",
     "react-native-splash-screen": "^3.3.0",
-    "react-native-vector-icons": "^10.0.3",
-    "react-native-vision-camera": "^3.8.2",
-    "react-redux": "^9.1.0",
-    "redux": "^5.0.1"
+    "react-native-vector-icons": "^10.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

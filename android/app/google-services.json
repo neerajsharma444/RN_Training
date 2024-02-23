@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "170179329815",
-    "firebase_url": "https://camera-7428e-default-rtdb.firebaseio.com",
-    "project_id": "camera-7428e",
-    "storage_bucket": "camera-7428e.appspot.com"
+    "project_number": "738331933177",
+    "project_id": "camera-4238d",
+    "storage_bucket": "camera-4238d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:170179329815:android:4fba929069a27120bac152",
+        "mobilesdk_app_id": "1:738331933177:android:4b558f17202b368747e528",
         "android_client_info": {
           "package_name": "com.assignment_7"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDOu2waakGNzTeqzGHxwW_ByHPOkEqmYy4"
+          "current_key": "AIzaSyCyCSptsD-vJGzzu4F9U-z29vw42FOaZ1A"
         }
       ],
       "services": {
