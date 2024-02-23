@@ -103,6 +103,8 @@ const Animations = () => {
                     ? offerRotationAnimation.interpolate({
                         inputRange: [0, 1],
                         outputRange: ['60deg', '-60deg'],
+                        // To rotate 360 deg
+                        // outputRange: ['0deg', '360deg'],
                       })
                     : '0deg',
                 },
